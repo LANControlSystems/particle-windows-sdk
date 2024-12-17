@@ -446,7 +446,7 @@ namespace Particle.SDK
         /// Imports a Device into a product and activates the SIM card
         /// </summary>
         /// <returns>Returns true/false</returns>
-        public async Task<bool> ImportDeviceInProductAsync(int productId, string deviceId, string claimUserEmail)
+        public async Task<string> ImportDeviceInProductAsync(int productId, string deviceId, string claimUserEmail)
         {
             try
             {
@@ -462,11 +462,11 @@ namespace Particle.SDK
                 string path = string.Format(ParticleApiPathProductDevices, productId);
                 var responseContent = await PostDataAsync($"{ParticleApiVersion}/{path}", data);
                 var result = JToken.Parse(responseContent);
-                return true;
+                return null;
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                return ex.ToString();
             }
         }
 
