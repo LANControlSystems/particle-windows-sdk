@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -528,6 +529,33 @@ namespace Particle.SDK
             {
                 var responseContent = await particleCloud.PutDataAsync($"{ParticleCloud.ParticleApiVersion}/{ParticleCloud.ParticleApiPathDevices}/{Id}", data);
                 return await RefreshAsync();
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Set groups
+        /// </summary>
+        /// <param name="groups">List of groups for the device</param>
+        /// <returns>Returns true if device group is updated</returns>
+        public async Task<bool> SetGroupAsync(int productId, string[] groups)
+        {
+            var data = new List < KeyValuePair<string, string>>();
+            foreach(string group in groups)
+            {
+                data.Add(new KeyValuePair<string, string>("groups[]", group));
+            }
+
+            try
+            {
+                string path = string.Format(ParticleCloud.ParticleApiPathProductDevices, productId);
+                var content = new FormUrlEncodedContent(data);
+                var responseContent = await particleCloud.PutDataAsync($"{ParticleCloud.ParticleApiVersion}/{path}/{Id}", content);
+                var result = JToken.Parse(responseContent);
+                return true;
             }
             catch
             {
