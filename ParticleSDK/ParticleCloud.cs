@@ -328,17 +328,10 @@ namespace Particle.SDK
         /// <returns>Returns a ParticleDevice</returns>
         public async Task<ParticleDevice> GetDeviceAsync(string deviceId)
         {
-            try
-            {
-                ParticleDevice device = new ParticleDevice(deviceId, this);
-                await device.RefreshAsync();
+            ParticleDevice device = new ParticleDevice(deviceId, this);
+            await device.RefreshAsync();
 
-                return device;
-            }
-            catch
-            {
-                return null;
-            }
+            return device;
         }
 
         /// <summary>
