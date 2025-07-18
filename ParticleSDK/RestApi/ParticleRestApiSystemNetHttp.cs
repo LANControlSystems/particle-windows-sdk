@@ -100,7 +100,7 @@ namespace Particle.SDK.RestApi
 
                 case HttpStatusCode.Forbidden:
                 case HttpStatusCode.Unauthorized:
-                    OnClientUnauthorized();
+                    //OnClientUnauthorized(); don't sign out, this is really bad
                     throw new ParticleUnauthorizedException(responseContent);
 
                 case HttpStatusCode.NotFound:
