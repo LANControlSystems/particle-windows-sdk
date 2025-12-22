@@ -110,7 +110,7 @@ namespace Particle.SDK.RestApi
                     throw new ParticleRequestBadRequestException(responseContent);
 
                 default:
-                    throw new Exception();
+                    throw new Exception("Bad response status code: "+response.StatusCode);
             }
         }
 
