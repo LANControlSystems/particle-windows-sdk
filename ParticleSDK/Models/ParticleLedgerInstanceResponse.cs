@@ -41,4 +41,28 @@ namespace Particle.SDK.Models
         [JsonProperty("instance")]
         public ParticleLedgerInstance Instance { get; set; }
     }
+
+    /// <summary>
+    /// Helper class from Particle Cloud Ledger Instances response
+    /// </summary>
+    public class ParticleLedgerInstancesResponse
+    {
+        [JsonProperty("instances")]
+        public ParticleLedgerInstance[] Instances { get; set; }
+        [JsonProperty("meta")]
+        public ParticleLedgerInstancesMeta Meta { get; set; }
+    }
+
+    /// <summary>
+    /// Helper class from Particle Cloud Ledger Instances response pagination data
+    /// </summary>
+    public class ParticleLedgerInstancesMeta
+    {
+        [JsonProperty("page")]
+        public int Page { get; set; }
+        [JsonProperty("per_page")]
+        public int PerPage { get; set; }
+        [JsonProperty("total_pages")]
+        public int TotalPages { get; set; }
+    }
 }

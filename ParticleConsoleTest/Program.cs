@@ -26,7 +26,7 @@ namespace ParticleConsoleTest
             await ParticleCloud.SharedCloud.TokenLoginAsync(AuthToken);
 
             ParticleDevice particleDevice = await ParticleCloud.SharedCloud.GetDeviceAsync(DeviceId);
-            //ParticleLedgerInstance ledger = await particleDevice.GetLedgerInstance("config", "nimbus");
+            List<ParticleLedgerInstance> ledgers = await ParticleCloud.SharedCloud.GetLedgerInstances("config", "nimbus");
 
             //ParticleSimResponse sim =  await particleDevice.GetSimCardAsync();
             //bool active  = await particleDevice.GetSimCardActiveAsync();

@@ -463,6 +463,41 @@ namespace Particle.SDK
             }
         }
 
+        /// <summary>
+        /// Retrieve ledger instances
+        /// </summary>
+        /// <param name="variable">Variable name</param>
+        /// <returns>Returns a ParticleVariableResponse</returns>
+        public async Task<List<ParticleLedgerInstance>> GetLedgerInstances(string ledger, string organizationSlug)
+        {
+            if (string.IsNullOrWhiteSpace(ledger))
+                throw new ArgumentNullException(nameof(ledger));
+
+            try
+            {
+                var jsonSerializerSettings = new JsonSerializerSettings() { DateTimeZoneHandling = DateTimeZoneHandling.Local };
+
+                string path = string.Format(ParticleApiPathLedgers, organizationSlug);
+                var responseContent = await GetDataAsync($"{ParticleApiVersion}/{path}/{ledger}/instances");
+                ParticleLedgerInstancesResponse response = JsonConvert.DeserializeObject<ParticleLedgerInstancesResponse>(responseContent, jsonSerializerSettings);
+
+                List<ParticleLedgerInstance> instances = new List<ParticleLedgerInstance>(response.Instances);
+                int totalPages = response.Meta?.TotalPages ?? 1;
+                for (int i = 2; i <= totalPages; i++)
+                {
+                    responseContent = await GetDataAsync($"{ParticleApiVersion}/{path}/{ledger}/instances?page={i}");
+                    response = JsonConvert.DeserializeObject<ParticleLedgerInstancesResponse>(responseContent, jsonSerializerSettings);
+                    instances.AddRange(response.Instances);
+                }
+
+                return instances;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         #endregion
 
         #region Public Organization Methods
